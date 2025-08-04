@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillSync - All Skills</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Navigation Header -->
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-brand">
+                    <i class="fas fa-brain"></i>
+                    <span>SkillSync</span>
+                </div>
+                <div class="nav-menu">
+                    <a href="index.html" class="nav-link">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="skills.html" class="nav-link active">
+                        <i class="fas fa-list"></i>
+                        <span>All Skills</span>
+                    </a>
+                    <a href="add.html" class="nav-link">
+                        <i class="fas fa-plus"></i>
+                        <span>Add Skill</span>
+                    </a>
+                    <a href="profile.html" class="nav-link">
+                        <i class="fas fa-user"></i>
+                        <span>Profile</span>
+                    </a>
+                </div>
+                <div class="nav-actions">
+                    <button class="theme-toggle" onclick="toggleTheme()">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <button class="logout-btn" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header Section -->
+            <section class="skills-header">
+                <div class="header-content">
+                    <h1>All Skills</h1>
+                    <div class="search-container">
+                        <i class="fas fa-search search-icon"></i>
+                        <input 
+                            type="text" 
+                            id="searchBar" 
+                            placeholder="Search skills..." 
+                            class="search-input"
+                        >
+                        <button class="clear-search" id="clearSearch" style="display: none;">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Filters Section -->
+            <section class="filters-section">
+                <div class="filter-container">
+                    <div class="filter-group">
+                        <label>Category:</label>
+                        <select id="categoryFilter" class="filter-select">
+                            <option value="">All Categories</option>
+                            <option value="Programming">Programming</option>
+                            <option value="Design">Design</option>
+                            <option value="Tools">Tools</option>
+                            <option value="Soft Skills">Soft Skills</option>
+                            <option value="Languages">Languages</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Status:</label>
+                        <select id="statusFilter" class="filter-select">
+                            <option value="">All Status</option>
+                            <option value="Learning">Learning</option>
+                            <option value="Intermediate">Intermediate</option>
+                            <option value="Advanced">Advanced</option>
+                            <option value="Completed">Completed</option>
+                        </select>
+                    </div>
+                    <button class="add-skill-btn" onclick="window.location.href='add.html'">
+                        <i class="fas fa-plus"></i>
+                        Add Skill
+                    </button>
+                </div>
+            </section>
+
+            <!-- Skills Grid -->
+            <section class="skills-section">
+                <div class="skills-stats">
+                    <span id="skills-count">0 skills found</span>
+                </div>
+                <div id="skillsList" class="skills-grid">
+                    <!-- Skills will be loaded here -->
+                </div>
+                <div id="empty-state" class="empty-state" style="display: none;">
+                    <i class="fas fa-search"></i>
+                    <h3>No matching skills found</h3>
+                    <p>Try adjusting your search or filters</p>
+                    <button onclick="clearFilters()" class="btn-primary">Clear Filters</button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

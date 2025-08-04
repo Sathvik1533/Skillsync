@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillSync - Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Navigation Header -->
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-brand">
+                    <i class="fas fa-brain"></i>
+                    <span>SkillSync</span>
+                </div>
+                <div class="nav-menu">
+                    <a href="index.html" class="nav-link active">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="skills.html" class="nav-link">
+                        <i class="fas fa-list"></i>
+                        <span>All Skills</span>
+                    </a>
+                    <a href="add.html" class="nav-link">
+                        <i class="fas fa-plus"></i>
+                        <span>Add Skill</span>
+                    </a>
+                    <a href="profile.html" class="nav-link">
+                        <i class="fas fa-user"></i>
+                        <span>Profile</span>
+                    </a>
+                </div>
+                <div class="nav-actions">
+                    <button class="theme-toggle" onclick="toggleTheme()">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <button class="logout-btn" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Welcome Section -->
+            <section class="welcome-section">
+                <div class="welcome-content">
+                    <h1>Welcome back, <span id="username">User</span>! 👋</h1>
+                    <p>Track your progress and master new skills</p>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <i class="fas fa-code"></i>
+                            <div class="stat-info">
+                                <h3 id="total-skills">0</h3>
+                                <p>Total Skills</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-star"></i>
+                            <div class="stat-info">
+                                <h3 id="completed-skills">0</h3>
+                                <p>Completed</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-clock"></i>
+                            <div class="stat-info">
+                                <h3 id="learning-skills">0</h3>
+                                <p>Learning</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quick Actions -->
+            <section class="quick-actions">
+                <h2>Quick Actions</h2>
+                <div class="action-grid">
+                    <a href="add.html" class="action-card">
+                        <i class="fas fa-plus-circle"></i>
+                        <h3>Add New Skill</h3>
+                        <p>Start tracking a new skill</p>
+                    </a>
+                    <a href="skills.html" class="action-card">
+                        <i class="fas fa-search"></i>
+                        <h3>Browse Skills</h3>
+                        <p>View and manage your skills</p>
+                    </a>
+                    <a href="profile.html" class="action-card">
+                        <i class="fas fa-chart-line"></i>
+                        <h3>Progress Report</h3>
+                        <p>See your learning progress</p>
+                    </a>
+                    <a href="#" class="action-card" onclick="showCategories()">
+                        <i class="fas fa-tags"></i>
+                        <h3>Categories</h3>
+                        <p>Organize by skill type</p>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Recent Skills -->
+            <section class="recent-skills">
+                <h2>Recent Skills</h2>
+                <div id="recent-skills-list" class="skills-grid">
+                    <!-- Skills will be loaded here -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

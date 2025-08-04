@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillSync - Profile</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Navigation Header -->
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-brand">
+                    <i class="fas fa-brain"></i>
+                    <span>SkillSync</span>
+                </div>
+                <div class="nav-menu">
+                    <a href="index.html" class="nav-link">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="skills.html" class="nav-link">
+                        <i class="fas fa-list"></i>
+                        <span>All Skills</span>
+                    </a>
+                    <a href="add.html" class="nav-link">
+                        <i class="fas fa-plus"></i>
+                        <span>Add Skill</span>
+                    </a>
+                    <a href="profile.html" class="nav-link active">
+                        <i class="fas fa-user"></i>
+                        <span>Profile</span>
+                    </a>
+                </div>
+                <div class="nav-actions">
+                    <button class="theme-toggle" onclick="toggleTheme()">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <button class="logout-btn" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Profile Header -->
+            <section class="profile-header">
+                <div class="profile-info">
+                    <div class="profile-avatar">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <div class="profile-details">
+                        <h1 id="profile-name">User Name</h1>
+                        <p id="profile-email">user@example.com</p>
+                        <p class="member-since">Member since <span id="member-since">2024</span></p>
+                    </div>
+                </div>
+                <div class="profile-stats">
+                    <div class="stat-item">
+                        <span class="stat-number" id="total-skills-profile">0</span>
+                        <span class="stat-label">Total Skills</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="completed-skills-profile">0</span>
+                        <span class="stat-label">Completed</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" id="learning-skills-profile">0</span>
+                        <span class="stat-label">Learning</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Progress Overview -->
+            <section class="progress-section">
+                <h2>Learning Progress</h2>
+                <div class="progress-grid">
+                    <div class="progress-card">
+                        <h3>Skill Categories</h3>
+                        <div id="category-chart" class="chart-container">
+                            <!-- Category chart will be rendered here -->
+                        </div>
+                    </div>
+                    <div class="progress-card">
+                        <h3>Skill Levels</h3>
+                        <div id="level-chart" class="chart-container">
+                            <!-- Level chart will be rendered here -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Recent Activity -->
+            <section class="activity-section">
+                <h2>Recent Activity</h2>
+                <div id="activity-list" class="activity-list">
+                    <!-- Activity items will be loaded here -->
+                </div>
+            </section>
+
+            <!-- Settings -->
+            <section class="settings-section">
+                <h2>Account Settings</h2>
+                <div class="settings-grid">
+                    <div class="setting-card">
+                        <h3>Profile Information</h3>
+                        <form id="profile-form" class="settings-form">
+                            <div class="form-group">
+                                <label for="edit-firstname">First Name</label>
+                                <input type="text" id="edit-firstname" value="">
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-lastname">Last Name</label>
+                                <input type="text" id="edit-lastname" value="">
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-email">Email</label>
+                                <input type="email" id="edit-email" value="">
+                            </div>
+                            <button type="submit" class="btn-primary">Update Profile</button>
+                        </form>
+                    </div>
+                    
+                    <div class="setting-card">
+                        <h3>Preferences</h3>
+                        <div class="preferences">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="email-notifications">
+                                <span class="checkmark"></span>
+                                Email notifications
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="weekly-reports">
+                                <span class="checkmark"></span>
+                                Weekly progress reports
+                            </label>
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="public-profile">
+                                <span class="checkmark"></span>
+                                Public profile
+                            </label>
+                        </div>
+                        <button class="btn-secondary" onclick="savePreferences()">Save Preferences</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Profile-specific functionality
+        function loadProfile() {
+            const user = JSON.parse(localStorage.getItem('user'));
+            if (user) {
+                document.getElementById('profile-name').textContent = user.name || `${user.firstName} ${user.lastName}`;
+                document.getElementById('profile-email').textContent = user.email;
+                document.getElementById('member-since').textContent = new Date().getFullYear();
+                
+                // Load form values
+                document.getElementById('edit-firstname').value = user.firstName || '';
+                document.getElementById('edit-lastname').value = user.lastName || '';
+                document.getElementById('edit-email').value = user.email || '';
+            }
+            
+            // Update stats
+            const totalSkills = skills.length;
+            const completedSkills = skills.filter(skill => skill.level === 'Completed').length;
+            const learningSkills = skills.filter(skill => skill.level === 'Learning').length;
+            
+            document.getElementById('total-skills-profile').textContent = totalSkills;
+            document.getElementById('completed-skills-profile').textContent = completedSkills;
+            document.getElementById('learning-skills-profile').textContent = learningSkills;
+            
+            renderCharts();
+            renderActivity();
+        }
+        
+        function renderCharts() {
+            // Category chart
+            const categoryChart = document.getElementById('category-chart');
+            const categories = {};
+            skills.forEach(skill => {
+                categories[skill.category] = (categories[skill.category] || 0) + 1;
+            });
+            
+            categoryChart.innerHTML = Object.entries(categories).map(([category, count]) => `
+                <div class="chart-item">
+                    <span class="chart-label">${category}</span>
+                    <div class="chart-bar">
+                        <div class="chart-fill" style="width: ${(count / skills.length) * 100}%"></div>
+                    </div>
+                    <span class="chart-value">${count}</span>
+                </div>
+            `).join('');
+            
+            // Level chart
+            const levelChart = document.getElementById('level-chart');
+            const levels = {};
+            skills.forEach(skill => {
+                levels[skill.level] = (levels[skill.level] || 0) + 1;
+            });
+            
+            levelChart.innerHTML = Object.entries(levels).map(([level, count]) => `
+                <div class="chart-item">
+                    <span class="chart-label">${level}</span>
+                    <div class="chart-bar">
+                        <div class="chart-fill" style="width: ${(count / skills.length) * 100}%"></div>
+                    </div>
+                    <span class="chart-value">${count}</span>
+                </div>
+            `).join('');
+        }
+        
+        function renderActivity() {
+            const activityList = document.getElementById('activity-list');
+            const recentSkills = skills.slice(0, 5);
+            
+            if (recentSkills.length === 0) {
+                activityList.innerHTML = `
+                    <div class="empty-activity">
+                        <i class="fas fa-clock"></i>
+                        <p>No recent activity</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            activityList.innerHTML = recentSkills.map(skill => `
+                <div class="activity-item">
+                    <div class="activity-icon">
+                        <i class="fas fa-plus-circle"></i>
+                    </div>
+                    <div class="activity-content">
+                        <h4>Added "${skill.name}"</h4>
+                        <p>${skill.category} • ${skill.level}</p>
+                        <small>${new Date(skill.createdAt).toLocaleDateString()}</small>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function savePreferences() {
+            const emailNotifications = document.getElementById('email-notifications').checked;
+            const weeklyReports = document.getElementById('weekly-reports').checked;
+            const publicProfile = document.getElementById('public-profile').checked;
+            
+            localStorage.setItem('preferences', JSON.stringify({
+                emailNotifications,
+                weeklyReports,
+                publicProfile
+            }));
+            
+            showAlert('Preferences saved successfully!', 'success');
+        }
+        
+        // Initialize profile page
+        document.addEventListener('DOMContentLoaded', function() {
+            if (checkAuth()) {
+                loadSkills();
+                loadProfile();
+                
+                // Handle profile form
+                const profileForm = document.getElementById('profile-form');
+                if (profileForm) {
+                    profileForm.addEventListener('submit', function(e) {
+                        e.preventDefault();
+                        
+                        const user = JSON.parse(localStorage.getItem('user'));
+                        user.firstName = document.getElementById('edit-firstname').value;
+                        user.lastName = document.getElementById('edit-lastname').value;
+                        user.name = `${user.firstName} ${user.lastName}`;
+                        user.email = document.getElementById('edit-email').value;
+                        
+                        localStorage.setItem('user', JSON.stringify(user));
+                        showAlert('Profile updated successfully!', 'success');
+                        
+                        // Update display
+                        document.getElementById('profile-name').textContent = user.name;
+                        document.getElementById('profile-email').textContent = user.email;
+                    });
+                }
+                
+                // Load saved preferences
+                const preferences = JSON.parse(localStorage.getItem('preferences') || '{}');
+                document.getElementById('email-notifications').checked = preferences.emailNotifications || false;
+                document.getElementById('weekly-reports').checked = preferences.weeklyReports || false;
+                document.getElementById('public-profile').checked = preferences.publicProfile || false;
+            }
+        });
+    </script>
+    
+    <style>
+        .profile-header {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-xl);
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: var(--spacing-lg);
+        }
+        
+        .profile-info {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-lg);
+        }
+        
+        .profile-avatar i {
+            font-size: 4rem;
+            color: var(--primary-color);
+        }
+        
+        .profile-details h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+        
+        .profile-details p {
+            color: var(--text-secondary);
+            margin-bottom: 0.25rem;
+        }
+        
+        .member-since {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+        
+        .profile-stats {
+            display: flex;
+            gap: var(--spacing-xl);
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            display: block;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+        
+        .progress-section,
+        .activity-section,
+        .settings-section {
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .progress-section h2,
+        .activity-section h2,
+        .settings-section h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .progress-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-lg);
+        }
+        
+        .progress-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .progress-card h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .chart-container {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+        }
+        
+        .chart-item {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+        }
+        
+        .chart-label {
+            min-width: 100px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        
+        .chart-bar {
+            flex: 1;
+            height: 8px;
+            background: var(--bg-secondary);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .chart-fill {
+            height: 100%;
+            background: var(--primary-color);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+        
+        .chart-value {
+            min-width: 30px;
+            text-align: right;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+        
+        .activity-list {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            padding: var(--spacing-lg);
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+        
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        
+        .activity-content h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        
+        .activity-content p {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .activity-content small {
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+        }
+        
+        .empty-activity {
+            text-align: center;
+            padding: var(--spacing-xl);
+            color: var(--text-secondary);
+        }
+        
+        .empty-activity i {
+            font-size: 3rem;
+            margin-bottom: var(--spacing-md);
+            opacity: 0.5;
+        }
+        
+        .settings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-lg);
+        }
+        
+        .setting-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .setting-card h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .settings-form {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+        }
+        
+        .preferences {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            cursor: pointer;
+            font-size: 0.875rem;
+        }
+        
+        .checkbox-label input[type="checkbox"] {
+            display: none;
+        }
+        
+        .checkmark {
+            width: 18px;
+            height: 18px;
+            border: 2px solid var(--border-color);
+            border-radius: 0.375rem;
+            position: relative;
+            transition: all 0.15s ease;
+        }
+        
+        .checkbox-label input[type="checkbox"]:checked + .checkmark {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+        
+        .checkbox-label input[type="checkbox"]:checked + .checkmark::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        @media (max-width: 768px) {
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .profile-info {
+                flex-direction: column;
+            }
+            
+            .profile-stats {
+                justify-content: center;
+            }
+            
+            .progress-grid,
+            .settings-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</body>
+</html> 

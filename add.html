@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillSync - Add Skill</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Navigation Header -->
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-brand">
+                    <i class="fas fa-brain"></i>
+                    <span>SkillSync</span>
+                </div>
+                <div class="nav-menu">
+                    <a href="index.html" class="nav-link">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="skills.html" class="nav-link">
+                        <i class="fas fa-list"></i>
+                        <span>All Skills</span>
+                    </a>
+                    <a href="add.html" class="nav-link active">
+                        <i class="fas fa-plus"></i>
+                        <span>Add Skill</span>
+                    </a>
+                    <a href="profile.html" class="nav-link">
+                        <i class="fas fa-user"></i>
+                        <span>Profile</span>
+                    </a>
+                </div>
+                <div class="nav-actions">
+                    <button class="theme-toggle" onclick="toggleTheme()">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <button class="logout-btn" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="form-container">
+                <div class="form-header">
+                    <h1><i class="fas fa-plus-circle"></i> Add New Skill</h1>
+                    <p>Track your learning progress and master new skills</p>
+                </div>
+
+                <form id="add-skill-form" class="skill-form">
+                    <div class="form-group">
+                        <label for="skill-name">
+                            <i class="fas fa-tag"></i>
+                            Skill Name *
+                        </label>
+                        <input 
+                            type="text" 
+                            id="skill-name" 
+                            placeholder="e.g., JavaScript, Photoshop, Public Speaking" 
+                            required
+                        >
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="skill-category">
+                                <i class="fas fa-folder"></i>
+                                Category
+                            </label>
+                            <select id="skill-category" required>
+                                <option value="">Select Category</option>
+                                <option value="Programming">Programming</option>
+                                <option value="Design">Design</option>
+                                <option value="Tools">Tools</option>
+                                <option value="Soft Skills">Soft Skills</option>
+                                <option value="Languages">Languages</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="skill-level">
+                                <i class="fas fa-chart-line"></i>
+                                Current Level
+                            </label>
+                            <select id="skill-level" required>
+                                <option value="">Select Level</option>
+                                <option value="Learning">Learning</option>
+                                <option value="Intermediate">Intermediate</option>
+                                <option value="Advanced">Advanced</option>
+                                <option value="Completed">Completed</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="skill-description">
+                            <i class="fas fa-align-left"></i>
+                            Description
+                        </label>
+                        <textarea 
+                            id="skill-description" 
+                            placeholder="Describe what you want to learn or achieve with this skill..."
+                            rows="4"
+                        ></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="skill-goals">
+                            <i class="fas fa-bullseye"></i>
+                            Learning Goals
+                        </label>
+                        <textarea 
+                            id="skill-goals" 
+                            placeholder="What specific goals do you have for this skill?"
+                            rows="3"
+                        ></textarea>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" onclick="window.location.href='skills.html'" class="btn-secondary">
+                            <i class="fas fa-arrow-left"></i>
+                            Cancel
+                        </button>
+                        <button type="submit" class="btn-primary">
+                            <i class="fas fa-save"></i>
+                            Add Skill
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
